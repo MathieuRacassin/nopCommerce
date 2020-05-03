@@ -1,15 +1,22 @@
 version: "3.4"
 services:
-    nopcommerce_web:
+    spickup_web_prod:
         build: .
-        container_name: nopcommerce
+        container_name: spickup_prod
         ports:
-            - "80:80"
+            - "8084:80"
         depends_on:
-            - nopcommerce_database
-    nopcommerce_database:
+            - spickup_database
+    spickup_web_test:
+        build: .
+        container_name: spickup_test
+        ports:
+            - "8086:80"
+        depends_on:
+            - spickup_database
+    spickup_database:
         image: "mcr.microsoft.com/mssql/server:2019-latest"
-        container_name: nopcommerce_mssql_server
+        container_name: spickup_mssql_server
         environment:
             SA_PASSWORD: "wapwap@564"
             ACCEPT_EULA: "Y"
@@ -17,4 +24,6 @@ services:
         ports:
             - "1433:1433"
         volumes:
-            - .\spickupvolume:/var/opt/mssql    
+            - C:\SpickupSQLServer:/var/opt/mssql/data    
+volumes:
+  spickup_data:  
